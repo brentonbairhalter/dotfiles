@@ -5,8 +5,7 @@
     editor = 'C:/Program Files/Sublime Text 2/sublime_text.exe'
     autocrlf = true
     fileMode = false
-[credential]
-    helper = !'C:\\Users\\bbairhalter\\AppData\\Roaming\\GitCredStore\\git-credential-winstore.exe'
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [mergetool "sublime"]
     cmd = subl -w $MERGED
     trustExitCode = false
