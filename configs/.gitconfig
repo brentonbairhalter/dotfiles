@@ -1,13 +1,14 @@
 [user]
     name = Brenton Bairhalter
-    email = bleedingblackngold@gmail.com
+    email = bbairhalter@cars.com 
+[credential]
+      helper = osxkeychain
 [core]
-    editor = 'C:/Program Files/Sublime Text 2/sublime_text.exe'
-    autocrlf = true
+    editor = sublime
     fileMode = false
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [mergetool "sublime"]
-    cmd = subl -w $MERGED
+    cmd = sublime -w $MERGED
     trustExitCode = false
 [merge]
     tool = sublime
@@ -17,7 +18,7 @@
     enabled = true
     #autoupdate = true
 [alias]
-  # abbreviations
+ # abbreviations
   st = status -u -s
   ci = commit
   cl = clone
@@ -27,41 +28,44 @@
   ph = push
   pl = pull
   la = "!git config -l | grep alias | cut -c 7-"
-  # pretty log with graph output
+# pretty log with graph output
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --decorate --abbrev-commit --date=relative
-  # pretty log with details
+# pretty log with details
   ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-  # list of files that have changed
+# list of files that have changed
   changes = diff --name-status
-  # list of changes since current branch diverge from master branch
+# list of changes since current branch diverge from master branch
   mdiff = "!git diff $(git merge-base master HEAD)"
-  # list of files that have changes since current branch diverge from master branch
+# list of files that have changes since current branch diverge from master branch
   mchanges = "!git diff --name-status $(git merge-base master HEAD)"
-  # diff between two branchs
+# diff between two branchs
   bdiff = "!f() { git diff $(git merge-base $1 HEAD); }; f"
-  # changes between two branchs
+# changes between two branchs
   bchanges = "!f() { git diff --name-status $(git merge-base $1 HEAD); }; f"
-  # diff between local and branch of same name on origin
+# diff between local and branch of same name on origin
   odiff = "!f() { branch_name=$(git symbolic-ref -q HEAD); branch_name=${branch_name##refs/heads/}; branch_name=${branch_name:-HEAD}; git diff origin/$branch_name; }; f"
-  # diff between local and branch of same name on origin
+# diff between local and branch of same name on origin
   ochanges = "!f() { branch_name=$(git symbolic-ref -q HEAD); branch_name=${branch_name##refs/heads/}; branch_name=${branch_name:-HEAD}; git diff --name-status origin/$branch_name; }; f"
-  # word diff
+# word diff
   wdiff = diff --word-diff=color
-  # find files
+# find files
   f = "!git ls-files | grep -i"
-  # find files containing text
+# find files containing text
   g = grep -Ii
-  # find files containing text (from root)
+# find files containing text (from root)
   ga = "!f() { TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 && cd -; }; f"
-  # find out which branch contains a change
+# find out which branch contains a change
   contains = branch --contains
-  # run on your topic branch ... checks to make sure your branch doesn't have workareas merged in and isn't based off of a workarea
+# run on your topic branch ... checks to make sure your branch doesn't have workareas merged in and isn't based off of a workarea
   qa-in-history = "!f() { BADMERGES=$(git log --merges --pretty='%h %s' | grep -v 'e22d64d' | grep \"Merge branch 'qa-dq0\"); if [ \"$BADMERGES\" != \"\" ] || [ $(git merge-base --is-ancestor qa-dq01 HEAD) ] || [ $(git merge-base --is-ancestor qa-dq02 HEAD) ]; then echo \"Found QA branch(es) in history! DO NOT TAKE THIS BRANCH TO PRODUCTION!\"; else echo \"No QA branches in history. Lookin' good chief!\"; fi }; f"
-  # pretty print all commits which were introduced by the last merge. NOTE: requires merge commit as an argument!
+# pretty print all commits which were introduced by the last merge. NOTE: requires merge commit as an argument!
   introduced = "!f() { git log $(git merge-base --octopus $(git show $1 --format='%P'))..$(git show $1 --format='%H') --boundary --graph --pretty=oneline --abbrev-commit; }; f"
-  # used after a revert to show commands you'll need to run in order to reintroduce commits previously introduced by a given merge commit. NOTE: requires merge commit as an argument!
+# used after a revert to show commands you'll need to run in order to reintroduce commits previously introduced by a given merge commit. NOTE: requires merge commit as an argument!
   reintroduce = "!f() { git log $(git merge-base --octopus $(git show $1 --format='%P'))..$(git show $1 --format='%H') --format='git cherry-pick %H' --no-merges --reverse; }; f"
-
+# Show all of my configured aliases
+    aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
+# Unstage changes from the index
+    unstage = reset HEAD --
 [color]
   diff = auto
   status = auto
